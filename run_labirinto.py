@@ -87,7 +87,7 @@ def main():
 	seed = random.random()*10000		
 	width = 10 	#20
 	height = 10 	#12
-	times = 2
+	# times = 2
 	limite = 1000
 	is_block = True
 	is_color = True
@@ -132,20 +132,18 @@ def main():
 	symbols.update(block_symbols)
 	symbols.update(color_symbols)
 	tentativas = []
-	for i in range(times):
-		# cria o labirinto
-		seed = random.random()*10000
-		maze_obj = maze.Maze(width, height, seed, symbols)
+	# for i in range(times):
+	# cria o labirinto
+	# seed = random.random()*10000
+	maze_obj = maze.Maze(width, height, seed, symbols)
 
-		# usa seu algoritmo (gbc063) para sair do labirinto
-		move = play_maze(maze_obj,limite,clock)
-		tentativas.append(move)
+	# usa seu algoritmo (gbc063) para sair do labirinto
+	move = play_maze(maze_obj,limite,clock)
+	tentativas.append(move)
 	
-	print("\n")
-	print("Moves: " + str(times))
-	print("Media: " + str(sum(tentativas)/times))
-	import pdb
-	# pdb.set_trace()
+	# print("\n")
+	# print("Moves: " + str(times))
+	# print("Media: " + str(sum(tentativas)/times))
 
 # main
 if __name__ == '__main__':
