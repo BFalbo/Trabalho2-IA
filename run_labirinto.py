@@ -46,15 +46,15 @@ def play_maze(maze_obj, limit,tinkle):
 	current = info[1]
 	options = info[2]
 	visitados = {}
-	# import pdb; pdb.set_trace()
+	limite_altura = 1
 	
-	options.reverse() # Descomentar para busca por profundidade.
 	move = 0
 
 	# sai qdo atinge o max de passos ou chega no objetivo
 	while not (move > limit) and not maze_obj.is_done():
 		# action = gbc063.algoritmo(current, options)
-		action = gbc063.algoritmo_profundidade(current, options, visitados)
+		# action = gbc063.algoritmo_profundidade(current, options, visitados)
+		action, limite_altura = gbc063.algoritmo_profundidade_iterativo(current, options, visitados, limite_altura)
 
 	# para debug
 	#	action = algoritmo(current, options)
@@ -75,7 +75,7 @@ def play_maze(maze_obj, limit,tinkle):
 		print('O objetivo foi atingido com ',move,' movimentos')
 		print('Solucao (',len(maze_obj.path),' passos)')
 		print(maze_obj.path)
-		return move
+		return move, maze_obj.path
 	else:
 		print('O objetivo nao foi atingido em ',move,' movimentos.')
 		
@@ -83,11 +83,11 @@ def play_maze(maze_obj, limit,tinkle):
 def main():
 
 	# set opcoes
-	clock = 0.01
+	clock = 0.00001
 	seed = random.random()*10000		
 	width = 10 	#20
 	height = 10 	#12
-	# times = 2
+	times = 1
 	limite = 1000
 	is_block = True
 	is_color = True
@@ -131,19 +131,25 @@ def main():
 	# se  nao, comente com #
 	symbols.update(block_symbols)
 	symbols.update(color_symbols)
-	tentativas = []
-	# for i in range(times):
-	# cria o labirinto
-	# seed = random.random()*10000
-	maze_obj = maze.Maze(width, height, seed, symbols)
+	movimentos = []
+	solucoes = []
+	for i in range(times):
+		# cria o labirinto
+		seed = random.random()*10000
+		maze_obj = maze.Maze(width, height, seed, symbols)
 
-	# usa seu algoritmo (gbc063) para sair do labirinto
-	move = play_maze(maze_obj,limite,clock)
-	tentativas.append(move)
+		# usa seu algoritmo (gbc063) para sair do labirinto
+		move, solucao = play_maze(maze_obj,limite,clock)
+		movimentos.append(move)
+		solucoes.append(len(solucao))
 	
-	# print("\n")
-	# print("Moves: " + str(times))
-	# print("Media: " + str(sum(tentativas)/times))
+	print("\n")
+	print("Labirintos resolvidos: " + str(times))
+	print("Movimentos medios: " + str(sum(movimentos)/times))
+	print("Todos os movimentos : " + str(movimentos))
+	print("\n")
+	print("Soluções medias: " + str(sum(solucoes)/times))
+	print("Todas as soluções: " + str(solucoes))
 
 # main
 if __name__ == '__main__':
